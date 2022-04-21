@@ -222,7 +222,6 @@ export const getArrivalMessageFunction = ({ arrivalMessage, currentChat }) => {
   return async (dispatch) => {
     try {
       const updatedMessages = [...currentChat, arrivalMessage];
-      console.log(updatedMessages);
       dispatch(sendNewMessageAction(updatedMessages));
     } catch (error) {
       console.log(error);

@@ -10,7 +10,6 @@ function ChatWindow() {
   );
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log(currentChat);
   useEffect(() => {
     arrivalMessage &&
       currentConversation?.members.includes(arrivalMessage?.senderId) &&
