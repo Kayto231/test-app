@@ -151,9 +151,9 @@ body {
         .dropdown__menu {
           display: flex;
           position: relative;
-          background-color: lightgrey;
           width: 100px;
           border: 1px solid grey;
+
           cursor: pointer;
           .dropdown__menu__item {
             width: 100%;
@@ -285,6 +285,11 @@ body {
             opacity: 0.9;
             color: #fff;
           }
+          .conversation__item__not__seen__block {
+            &::after {
+              background: #fff;
+            }
+          }
         }
       }
     }
@@ -375,6 +380,12 @@ body {
         .chat__body__message__time {
           align-self: flex-end;
           margin-right: 20px;
+        }
+        .chat__body__message__and__photo {
+          .chat__body__message {
+            color: #000;
+            background-color: lightgrey;
+          }
         }
       }
     }

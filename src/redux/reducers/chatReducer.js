@@ -16,7 +16,7 @@ const initialState = {
   currentConversation: {},
   currentFriend: {},
   arrivalMessage: {},
-  searchContactInput: "s",
+  searchContactInput: "",
 };
 
 export const chatReducer = (state = initialState, action) => {
