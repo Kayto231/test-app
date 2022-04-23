@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getArrivalMessageFunction } from "../../../redux/actions/chatActions";
-import { CONVERSATION_URL } from "../../../URLS/consts";
 import Message from "../Message/Message";
 
 function ChatWindow() {

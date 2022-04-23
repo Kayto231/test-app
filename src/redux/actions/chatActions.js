@@ -1,4 +1,5 @@
 import axios from "axios";
+import { now } from "moment";
 import {
   CONVERSATION_URL,
   MESSAGES_URL,
@@ -14,9 +15,9 @@ import {
   SET_SEARCH_INPUT,
 } from "../consts";
 
-export const changeSearchInputAction = (event) => ({
+export const changeSearchInputAction = (string) => ({
   type: SET_SEARCH_INPUT,
-  payload: event.target.value,
+  payload: string,
 });
 export const fetchConversationsAction = (array) => ({
   type: GET_CONVERSATIONS,
@@ -163,22 +164,25 @@ export const changeConversationStateFunction = ({
   state,
 }) => {
   return async (dispatch) => {
-    const conversationToEdit = {
-      members: currentConversation.members,
-      lastMessage: message,
-      isSeen: state,
-      createdAt: Date.now(),
-      convId: currentConversation.convId,
-      id: currentConversation.id,
-    };
-    await axios.put(
-      CONVERSATION_URL + `/${currentConversation.id}`,
-      conversationToEdit
-    );
-    const sortedArray = await getAndSortAllConversationFunction({
-      currentUser,
-    });
-    dispatch(fetchConversationsAction(sortedArray));
+    try {
+      const conversationToEdit = {
+        members: currentConversation.members,
+        lastMessage: message,
+        isSeen: state,
+        createdAt: Date.now(),
+        convId: currentConversation.convId,
+        id: currentConversation.id,
+      };
+
+      await axios.put(
+        CONVERSATION_URL + `/${currentConversation.id}`,
+        conversationToEdit
+      );
+      const sortedArray = await getAndSortAllConversationFunction({
+        currentUser,
+      });
+      dispatch(fetchConversationsAction(sortedArray));
+    } catch (error) {}
   };
 };
 
@@ -228,3 +232,61 @@ export const getArrivalMessageFunction = ({ arrivalMessage, currentChat }) => {
     }
   };
 };
+
+export const startNewConversation = ({ currentUser, user }) => {
+  return async (dispatch) => {
+    try {
+      const filteredConversations = await axios
+        .get(CONVERSATION_URL)
+        .then((res) =>
+          res.data.filter((el) =>
+            el.members.includes(currentUser.id && user.id)
+          )
+        );
+      const conversationToPost = {
+        members: [currentUser.id, user.id],
+        lastMessage: "",
+        isSeen: true,
+        createdAt: Date.now(),
+        convId: Math.random(),
+        id: Math.random(),
+      };
+
+      if (filteredConversations.length === 0) {
+        const response = await axios.post(CONVERSATION_URL, conversationToPost);
+
+        dispatch(
+          setCurrentMessagesFunction({
+            currentConversation: response.data,
+            currentUser,
+            friendObject: user,
+          })
+        );
+        dispatch(fetchConversationsFuncton({ currentUser }));
+      } else {
+        const currentConversation = filteredConversations.find((el) =>
+          el.members.includes(user.id && currentUser.id)
+        );
+        dispatch(
+          setCurrentMessagesFunction({
+            currentConversation,
+            currentUser,
+            friendObject: user,
+          })
+        );
+      }
+    } catch (error) {}
+  };
+};
+
+// {
+//   "members": [
+//    2,
+//    3
+//   ],
+//   "lastMessage": "Hello Alex.",
+//   "isSeen": false,
+//   "createdAt": 1650548200926,
+//   "convId": 0,
+//   "id": "0"
+//  },

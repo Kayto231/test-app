@@ -49,7 +49,7 @@ function AsideHeader() {
           type="text"
           placeholder="Search or start a new chat"
           value={searchContactInput}
-          onChange={(e) => dispatch(changeSearchInputAction(e))}
+          onChange={(e) => dispatch(changeSearchInputAction(e.target.value))}
         />
         <img
           className="aside__search__png"
