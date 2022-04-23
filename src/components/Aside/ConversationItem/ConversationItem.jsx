@@ -13,8 +13,8 @@ function ConversationItem({
   const { allUsers, currentUser } = useSelector((state) => state.user);
   const chat = useSelector((state) => state.chat);
 
-  const [friendId] = membersList.filter((id) => id !== currentUser.id);
-  const [friendObject] = allUsers.filter((user) => user.id === friendId);
+  const [friendId] = membersList.filter((id) => +id !== currentUser?.id);
+  const [friendObject] = allUsers.filter((user) => +user.id === friendId);
   const dispatch = useDispatch();
 
   const formatedTime = new Date(createdAt);
@@ -43,7 +43,7 @@ function ConversationItem({
         />
         <div className="bio__block flex__cl">
           {" "}
-          <div className="conversation__item__name">{friendObject.name}</div>
+          <div className="conversation__item__name">{friendObject?.name}</div>
           <div className="conversation__item__last__message">{lastMessage}</div>
         </div>
       </div>

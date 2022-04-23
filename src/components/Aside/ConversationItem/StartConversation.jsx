@@ -31,10 +31,6 @@ function StartConversation({ user }) {
           <div className="conversation__item__last__message"></div>
         </div>
       </div>
-      <span className="aside__conversation__item__time">
-        {/* {moment().fromNow()} */}
-      </span>
-      {/* {!isSeen && <div className="conversation__item__not__seen__block"></div>} */}
     </div>
   );
 }

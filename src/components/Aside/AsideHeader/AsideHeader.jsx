@@ -21,7 +21,7 @@ function AsideHeader() {
             src="./assets/images/no__profile__photo.jpg"
             alt="no__profile__photo"
           />
-          <span className="aside__header__user__name"> {currentUser.name}</span>
+          <span className="aside__header__user__name">{currentUser?.name}</span>
         </div>
 
         <img

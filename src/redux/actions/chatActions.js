@@ -47,12 +47,30 @@ export const setArrivalMessageAction = (object) => ({
   payload: object,
 });
 
+export const getAndSortAllConversationFunction = async ({ currentUser }) => {
+  const allConversations = await getConversations();
+  const filteredConverstaions = allConversations.filter((el) =>
+    el.members.includes(+currentUser.id)
+  );
+  const sortedArray = filteredConverstaions.sort(
+    (a, b) => b.createdAt - a.createdAt
+  );
+  console.log("getAndSortAllConversationFunction");
+
+  return sortedArray;
+};
+export const getConversations = async () => {
+  const data = await axios.get(CONVERSATION_URL).then((res) => res.data);
+  return data;
+};
+
 export const fetchConversationsFuncton = (currentUser) => {
   return async (dispatch) => {
     try {
       const sortedArray = await getAndSortAllConversationFunction({
         currentUser,
       });
+      console.log("fetchConversationsFuncton");
 
       dispatch(fetchConversationsAction(sortedArray));
     } catch (error) {
@@ -67,6 +85,8 @@ export const setCurrentMessagesFunction = ({
   friendObject,
 }) => {
   return async (dispatch) => {
+    console.log("setCurrentMessagesFunction");
+
     try {
       const messagesResponse = await axios
         .get(MESSAGES_URL)
@@ -75,6 +95,7 @@ export const setCurrentMessagesFunction = ({
       const filteredMessages = messagesResponse.filter(
         (el) => el.conversationId === currentConversation.convId
       );
+
       if (currentConversation.isSeen === false) {
         dispatch(
           changeConversationStateFunction({
@@ -84,16 +105,24 @@ export const setCurrentMessagesFunction = ({
             state: true,
           })
         );
+        // dispatch(
+        //   setCurrentMessagesAction({
+        //     isChat: true,
+        //     currentChat: filteredMessages,
+        //     currentConversation,
+        //     currentFriend: friendObject,
+        //   })
+        // );
+      } else {
+        dispatch(
+          setCurrentMessagesAction({
+            isChat: true,
+            currentChat: filteredMessages,
+            currentConversation,
+            currentFriend: friendObject,
+          })
+        );
       }
-
-      dispatch(
-        setCurrentMessagesAction({
-          isChat: true,
-          currentChat: filteredMessages,
-          currentConversation,
-          currentFriend: friendObject,
-        })
-      );
     } catch (error) {
       console.log(error);
     }
@@ -109,9 +138,11 @@ export const sendNewMessageFunction = ({
 }) => {
   return async (dispatch) => {
     try {
+      console.log("sendNewMessageFunction");
+
       const newMessage = {
         conversationId: currentConversation.convId,
-        senderId: currentUser.id,
+        senderId: +currentUser.id,
         message,
         createdAt: Date.now(),
       };
@@ -142,21 +173,6 @@ export const sendNewMessageFunction = ({
   };
 };
 
-export const getAndSortAllConversationFunction = async ({ currentUser }) => {
-  const allConversations = await getConversations();
-  const filteredConverstaions = allConversations.filter((el) =>
-    el.members.includes(currentUser.id)
-  );
-  const sortedArray = filteredConverstaions.sort(
-    (a, b) => b.createdAt - a.createdAt
-  );
-  return sortedArray;
-};
-export const getConversations = async () => {
-  const data = await axios.get(CONVERSATION_URL).then((res) => res.data);
-  return data;
-};
-
 export const changeConversationStateFunction = ({
   currentConversation,
   currentUser,
@@ -165,6 +181,8 @@ export const changeConversationStateFunction = ({
 }) => {
   return async (dispatch) => {
     try {
+      console.log("changeConversationStateFunction");
+
       const conversationToEdit = {
         members: currentConversation.members,
         lastMessage: message,
@@ -192,6 +210,8 @@ export const sendJokeMessage = ({
   currentUser,
 }) => {
   return async (dispatch) => {
+    console.log("sendJokeMessage");
+
     try {
       setTimeout(async () => {
         const randomJokeResponse = await axios
@@ -200,7 +220,7 @@ export const sendJokeMessage = ({
 
         const newMessage = {
           conversationId: currentConversation.convId,
-          senderId: currentFriend.id,
+          senderId: +currentFriend.id,
           message: randomJokeResponse.value,
           createdAt: Date.now(),
         };
@@ -224,6 +244,8 @@ export const sendJokeMessage = ({
 
 export const getArrivalMessageFunction = ({ arrivalMessage, currentChat }) => {
   return async (dispatch) => {
+    console.log("getArrivalMessageFunction");
+
     try {
       const updatedMessages = [...currentChat, arrivalMessage];
       dispatch(sendNewMessageAction(updatedMessages));
@@ -235,16 +257,21 @@ export const getArrivalMessageFunction = ({ arrivalMessage, currentChat }) => {
 
 export const startNewConversation = ({ currentUser, user }) => {
   return async (dispatch) => {
+    console.log("startNewConversation");
+
     try {
       const filteredConversations = await axios
         .get(CONVERSATION_URL)
         .then((res) =>
-          res.data.filter((el) =>
-            el.members.includes(currentUser.id && user.id)
+          res.data.filter(
+            (el) =>
+              el.members.includes(+currentUser.id) &&
+              el.members.includes(+user.id)
           )
         );
+
       const conversationToPost = {
-        members: [currentUser.id, user.id],
+        members: [+currentUser.id, +user.id],
         lastMessage: "",
         isSeen: true,
         createdAt: Date.now(),
@@ -255,6 +282,11 @@ export const startNewConversation = ({ currentUser, user }) => {
       if (filteredConversations.length === 0) {
         const response = await axios.post(CONVERSATION_URL, conversationToPost);
 
+        const sortedArray = await getAndSortAllConversationFunction({
+          currentUser,
+        });
+        dispatch(fetchConversationsAction(sortedArray));
+
         dispatch(
           setCurrentMessagesFunction({
             currentConversation: response.data,
@@ -262,10 +294,9 @@ export const startNewConversation = ({ currentUser, user }) => {
             friendObject: user,
           })
         );
-        dispatch(fetchConversationsFuncton({ currentUser }));
       } else {
         const currentConversation = filteredConversations.find((el) =>
-          el.members.includes(user.id && currentUser.id)
+          el.members.includes(+user.id && +currentUser.id)
         );
         dispatch(
           setCurrentMessagesFunction({
@@ -278,15 +309,3 @@ export const startNewConversation = ({ currentUser, user }) => {
     } catch (error) {}
   };
 };
-
-// {
-//   "members": [
-//    2,
-//    3
-//   ],
-//   "lastMessage": "Hello Alex.",
-//   "isSeen": false,
-//   "createdAt": 1650548200926,
-//   "convId": 0,
-//   "id": "0"
-//  },

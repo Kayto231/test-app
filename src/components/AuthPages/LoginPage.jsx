@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { authFunction, loginFunction } from "../../redux/actions/userActions";
+import {
+  authFunction,
+  loginFunction,
+  loginThroughProviderFunction,
+} from "../../redux/actions/userActions";
+import GoogleLogin from "react-google-login";
 
 function LoginPage() {
   const [login, setLogin] = useState("");
@@ -11,11 +16,13 @@ function LoginPage() {
   );
   const dispatch = useDispatch();
 
-  const handleLogin = () => {
+  const handleLogin = (e) => {
+    e.preventDefault();
     dispatch(
       loginFunction({ login: "test@gmail.com", password: 1234 }, allUsers)
       // loginFunction({ login: "test3@gmail.com", password: 1234 }, allUsers)
     );
+    console.log(allUsers);
 
     setLogin("");
     setPassword("");
@@ -25,6 +32,9 @@ function LoginPage() {
     dispatch(authFunction());
   }, []);
 
+  const loginThroughProvider = (providerObj) => {
+    dispatch(loginThroughProviderFunction({ providerObj, allUsers }));
+  };
   return (
     <div className="login__container flex__cl">
       {isLoading ? (
@@ -55,11 +65,17 @@ function LoginPage() {
             />
             <button
               type="submut"
-              onClick={() => handleLogin()}
+              onClick={handleLogin}
               className="login__button button"
             >
               Sign in
             </button>
+            <GoogleLogin
+              clientId="545556659238-v889rnr15ivn0e3p11ds753akh262ftm.apps.googleusercontent.com"
+              buttonText="Login"
+              onSuccess={loginThroughProvider}
+              onFailure={loginThroughProvider}
+            />
           </form>
         </>
       )}

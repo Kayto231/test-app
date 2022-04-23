@@ -1,4 +1,5 @@
 import axios from "axios";
+import { fi } from "date-fns/locale";
 import { USER_LIST_URL } from "../../URLS/consts";
 import {
   ERROR_WHILE_LOGGIN,
@@ -54,10 +55,11 @@ export const authFunction = () => {
   return async (dispatch) => {
     try {
       setTimeout(async () => {
-        const response = await axios.get(USER_LIST_URL);
-        const usersList = response.data[0];
-        const users = usersList.users;
-        dispatch(getAllUrers(users));
+        const userResponse = await axios
+          .get(USER_LIST_URL)
+          .then((res) => res.data);
+
+        dispatch(getAllUrers(userResponse));
 
         const token = localStorage.getItem("token");
         if (!token) {
@@ -66,9 +68,10 @@ export const authFunction = () => {
           );
         }
         if (token) {
-          const currentUser = users.find(
+          const currentUser = userResponse.find(
             (el) => el.username === JSON.parse(token)
           );
+          currentUser.id = +currentUser.id;
           dispatch(
             loginAction({ currentUser, isLogged: true, isLoading: false })
           );
@@ -86,9 +89,59 @@ export const logOutUserFunction = () => {
     dispatch(
       logOutUserAction({
         currentUser: {},
-        allUsers: [],
         isLogged: false,
       })
     );
+  };
+};
+
+export const loginThroughProviderFunction = ({ providerObj, allUsers }) => {
+  return async (dispatch) => {
+    try {
+      const currentUser = providerObj.profileObj;
+      const isCandidate = allUsers.filter(
+        (user) => user.username === currentUser.email
+      );
+
+      if (isCandidate.length > 0) {
+        const [user] = isCandidate;
+
+        user.id = +user.id;
+        localStorage.setItem("token", JSON.stringify(user.username));
+
+        dispatch(
+          loginAction({
+            currentUser: user,
+            isLogged: true,
+            isLoading: false,
+          })
+        );
+      } else {
+        const newUser = {
+          name: currentUser.name,
+          createdAt: Date.now(),
+          password: "google/Auth",
+          username: currentUser.email,
+        };
+
+        const currentUserToLogin = await axios
+          .post(USER_LIST_URL, newUser)
+          .then((res) => res.data);
+
+        currentUserToLogin.id = +currentUserToLogin.id;
+        localStorage.setItem(
+          "token",
+          JSON.stringify(currentUserToLogin.username)
+        );
+
+        dispatch(
+          loginAction({
+            currentUser: currentUserToLogin,
+            isLogged: true,
+            isLoading: false,
+          })
+        );
+      }
+    } catch (error) {}
   };
 };

@@ -20,7 +20,7 @@ function AsideChats() {
               .filter((el) =>
                 el.name.toLowerCase().includes(searchContactInput.toLowerCase())
               )
-              .map((el) => <StartConversation user={el} />)
+              .map((el, i) => <StartConversation key={i} user={el} />)
           : currentConversations.map((el, i) => {
               return (
                 <ConversationItem
