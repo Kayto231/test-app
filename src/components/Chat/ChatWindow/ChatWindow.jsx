@@ -4,16 +4,21 @@ import { getArrivalMessageFunction } from "../../../redux/actions/chatActions";
 import Message from "../Message/Message";
 
 function ChatWindow() {
-  const { currentChat, arrivalMessage, currentConversation } = useSelector(
-    (state) => state.chat
-  );
+  const { currentChat, currentConversation, arrivalMessage, currentFriend } =
+    useSelector((state) => state.chat);
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
 
   useEffect(() => {
     arrivalMessage &&
       currentConversation?.members.includes(arrivalMessage?.senderId) &&
-      dispatch(getArrivalMessageFunction({ arrivalMessage, currentChat }));
+      dispatch(
+        getArrivalMessageFunction({
+          currentConversation,
+          currentUser,
+          currentFriend,
+        })
+      );
   }, [arrivalMessage]);
 
   return (

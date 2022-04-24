@@ -10,7 +10,7 @@ function AsideChats() {
   const { allUsers, currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const filteredUsers = allUsers.filter((el) => el.id !== currentUser.id);
-
+  console.log(filteredUsers);
   return (
     <div className="aside__chats flex__cl">
       <span className="aside__chats__label flex__cl">Chats</span>

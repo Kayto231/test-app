@@ -19,15 +19,13 @@ function LoginPage() {
   const handleLogin = (e) => {
     e.preventDefault();
     dispatch(
-      loginFunction({ login: "test@gmail.com", password: 1234 }, allUsers)
-      // loginFunction({ login: "test3@gmail.com", password: 1234 }, allUsers)
+      loginFunction({ login, password }, allUsers)
+      // loginFunction({ login: "test@gmail.com", password: 1234 }, allUsers)
     );
-    console.log(allUsers);
 
     setLogin("");
     setPassword("");
   };
-
   useEffect(() => {
     dispatch(authFunction());
   }, []);
@@ -44,10 +42,10 @@ function LoginPage() {
         </div>
       ) : (
         <>
-          {isError && (
-            <div className="login__container__error">{error.message}</div>
-          )}
-          <form className="login__form flex__cl" action="#">
+          <form className="login__form flex__cl" onSubmit={handleLogin}>
+            {isError && (
+              <div className="login__container__error">{error.message}</div>
+            )}
             <span className="login__form__header">Login</span>
             <input
               className="input input__login"
@@ -63,19 +61,18 @@ function LoginPage() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button
-              type="submut"
-              onClick={handleLogin}
-              className="login__button button"
-            >
-              Sign in
-            </button>
-            <GoogleLogin
-              clientId="545556659238-v889rnr15ivn0e3p11ds753akh262ftm.apps.googleusercontent.com"
-              buttonText="Login"
-              onSuccess={loginThroughProvider}
-              onFailure={loginThroughProvider}
-            />
+            <div className="btns">
+              <button type="submut" className="login__button button">
+                Sign in
+              </button>
+              <GoogleLogin
+                className="google__button button"
+                clientId="545556659238-v889rnr15ivn0e3p11ds753akh262ftm.apps.googleusercontent.com"
+                buttonText="Login"
+                onSuccess={loginThroughProvider}
+                onFailure={loginThroughProvider}
+              />
+            </div>
           </form>
         </>
       )}

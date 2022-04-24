@@ -21,6 +21,8 @@ export const userReducer = (state = initialState, action) => {
         ...state,
         currentUser: action.payload.currentUser,
         isLogged: action.payload.isLogged,
+        error: action.payload.error,
+        isError: action.payload.isError,
       };
     case ERROR_WHILE_LOGGIN:
       return {

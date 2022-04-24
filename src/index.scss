@@ -15,6 +15,10 @@ body {
   min-width: 100%;
   position: relative;
 }
+//Colors
+$primary-color: #384151;
+$white-color: #fff;
+$light-grey: light-grey;
 
 .flex__cl {
   display: flex;
@@ -26,24 +30,100 @@ body {
 }
 
 .input {
-  border: 1px solid lightgrey;
+  border: 1px solid $light-grey;
   outline: none;
   padding: 20px 10px;
 }
 .button {
+  text-decoration: none;
   padding: 15px 10px;
-  background: #384151;
+  background: $primary-color;
   outline: none;
   border: 0;
-  color: #fff;
+  color: $white-color;
   text-transform: uppercase;
   font-weight: bold;
+  margin: 10px;
 }
 .wrapper {
   position: absolute;
   height: 100%;
   width: 100%;
   display: flex;
+
+  // WelcomePage CSS
+  .welcome__container {
+    width: 1042px;
+    margin: 0 auto;
+    height: 100%;
+
+    .welcome__page__navbar {
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      flex: 0 0 12%;
+      background-color: $primary-color;
+
+      .welcome__page__ul {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100%;
+        width: 100%;
+
+        .active {
+          border-bottom: 2px solid orange;
+        }
+        .welcome__page__li {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+
+          color: $white-color;
+          list-style-type: none;
+          padding: 10px;
+        }
+      }
+    }
+    .welcome__page__text {
+      flex: 1 1 60%;
+
+      .text {
+        padding: 10px 10px 10px 10px;
+      }
+      .welcome__page__header {
+        width: 100%;
+        flex: 1 1 40%;
+      }
+      .welcome__page__body {
+        width: 100%;
+        flex: 1 1 40%;
+      }
+      .welcome__page__footer {
+        width: 100%;
+        flex: 1 1 20%;
+
+        .contact__text {
+          width: 100%;
+          .contact__text__link {
+            color: rgb(39, 54, 83);
+            text-decoration: none;
+          }
+        }
+      }
+    }
+    .link__buttons {
+      justify-content: center;
+      // align-items: center;
+      width: 100%;
+      flex: 1 1 20%;
+      .button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
 
   //LoginPage Css
   .login__container {
@@ -59,7 +139,7 @@ body {
       height: 80px;
       div {
         position: absolute;
-        border: 4px solid #384151;
+        border: 4px solid $primary-color;
         opacity: 1;
         border-radius: 50%;
         animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
@@ -96,8 +176,8 @@ body {
       min-width: 375px;
       max-width: 600px;
       height: 100%;
-      border-right: 1px solid lightgray;
-      border-left: 1px solid lightgray;
+      border-right: 1px solid $light-grey;
+      border-left: 1px solid $light-grey;
       justify-content: center;
       align-items: center;
 
@@ -109,8 +189,31 @@ body {
         width: 70%;
         margin: 20px;
       }
-      .login__button {
-        width: 40%;
+      .btns {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        .login__button {
+          cursor: pointer;
+          width: 40%;
+          box-shadow: 1px 1px 10px $primary-color;
+
+          &:active {
+            box-shadow: unset;
+          }
+        }
+        .google__button {
+          display: flex;
+          justify-content: center;
+          width: 40%;
+          box-shadow: 1px 1px 10px $primary-color;
+
+          &:active {
+            box-shadow: unset;
+          }
+        }
       }
     }
   }
@@ -163,8 +266,8 @@ body {
           }
           &:hover {
             .dropdown__menu__item {
-              background-color: #384151;
-              color: #fff;
+              background-color: $primary-color;
+              color: $white-color;
             }
           }
         }
@@ -272,7 +375,7 @@ body {
 
             &::after {
               content: " ";
-              background: #384151;
+              background: $primary-color;
               display: inline-block;
               width: 10px;
               height: 10px;
@@ -281,15 +384,15 @@ body {
           }
         }
         .selected {
-          background-color: #384151;
-          color: #fff;
+          background-color: $primary-color;
+          color: $white-color;
           .aside__conversation__item__time {
             opacity: 0.9;
-            color: #fff;
+            color: $white-color;
           }
           .conversation__item__not__seen__block {
             &::after {
-              background: #fff;
+              background: $white-color;
             }
           }
         }
@@ -363,7 +466,7 @@ body {
             max-width: 50%;
             display: flex;
             align-items: center;
-            background-color: #384151;
+            background-color: $primary-color;
             color: white;
             padding: 10px 10px;
             border-radius: 25px;
@@ -386,7 +489,7 @@ body {
         .chat__body__message__and__photo {
           .chat__body__message {
             color: #000;
-            background-color: lightgrey;
+            background-color: $light-grey;
           }
         }
       }
@@ -424,6 +527,8 @@ body {
 
 @media screen and (max-width: 700px) {
   .wrapper {
+    font-size: 20px;
+
     .login__container {
       .login__form {
         .login__button {

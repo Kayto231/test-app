@@ -55,7 +55,6 @@ export const getAndSortAllConversationFunction = async ({ currentUser }) => {
   const sortedArray = filteredConverstaions.sort(
     (a, b) => b.createdAt - a.createdAt
   );
-  console.log("getAndSortAllConversationFunction");
 
   return sortedArray;
 };
@@ -70,33 +69,29 @@ export const fetchConversationsFuncton = (currentUser) => {
       const sortedArray = await getAndSortAllConversationFunction({
         currentUser,
       });
-      console.log("fetchConversationsFuncton");
 
       dispatch(fetchConversationsAction(sortedArray));
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 };
 
 export const setCurrentMessagesFunction = ({
   currentConversation,
   currentUser,
-  friendObject,
+  currentFriend,
 }) => {
   return async (dispatch) => {
-    console.log("setCurrentMessagesFunction");
-
     try {
       const messagesResponse = await axios
         .get(MESSAGES_URL)
         .then((res) => res.data);
 
-      const filteredMessages = messagesResponse.filter(
+      const filteredMessages = await messagesResponse.filter(
         (el) => el.conversationId === currentConversation.convId
       );
-
+      console.log(messagesResponse);
       if (currentConversation.isSeen === false) {
+        console.log("false");
         dispatch(
           changeConversationStateFunction({
             currentConversation,
@@ -105,27 +100,27 @@ export const setCurrentMessagesFunction = ({
             state: true,
           })
         );
-        // dispatch(
-        //   setCurrentMessagesAction({
-        //     isChat: true,
-        //     currentChat: filteredMessages,
-        //     currentConversation,
-        //     currentFriend: friendObject,
-        //   })
-        // );
-      } else {
         dispatch(
           setCurrentMessagesAction({
             isChat: true,
             currentChat: filteredMessages,
             currentConversation,
-            currentFriend: friendObject,
+            currentFriend,
+          })
+        );
+      } else {
+        console.log("else");
+        console.log(filteredMessages);
+        dispatch(
+          setCurrentMessagesAction({
+            isChat: true,
+            currentChat: filteredMessages,
+            currentConversation,
+            currentFriend,
           })
         );
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 };
 
@@ -138,8 +133,6 @@ export const sendNewMessageFunction = ({
 }) => {
   return async (dispatch) => {
     try {
-      console.log("sendNewMessageFunction");
-
       const newMessage = {
         conversationId: currentConversation.convId,
         senderId: +currentUser.id,
@@ -167,9 +160,7 @@ export const sendNewMessageFunction = ({
           currentUser,
         })
       );
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 };
 
@@ -181,8 +172,6 @@ export const changeConversationStateFunction = ({
 }) => {
   return async (dispatch) => {
     try {
-      console.log("changeConversationStateFunction");
-
       const conversationToEdit = {
         members: currentConversation.members,
         lastMessage: message,
@@ -210,8 +199,6 @@ export const sendJokeMessage = ({
   currentUser,
 }) => {
   return async (dispatch) => {
-    console.log("sendJokeMessage");
-
     try {
       setTimeout(async () => {
         const randomJokeResponse = await axios
@@ -233,32 +220,34 @@ export const sendJokeMessage = ({
             state: false,
           })
         );
-        dispatch(setArrivalMessageAction(newMessage));
         await axios.post(MESSAGES_URL, newMessage);
+        dispatch(setArrivalMessageAction(newMessage));
       }, 10000);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 };
 
-export const getArrivalMessageFunction = ({ arrivalMessage, currentChat }) => {
+export const getArrivalMessageFunction = ({
+  currentConversation,
+  currentUser,
+  currentFriend,
+}) => {
   return async (dispatch) => {
-    console.log("getArrivalMessageFunction");
-
     try {
-      const updatedMessages = [...currentChat, arrivalMessage];
-      dispatch(sendNewMessageAction(updatedMessages));
-    } catch (error) {
-      console.log(error);
-    }
+      dispatch(
+        setCurrentMessagesFunction({
+          currentConversation,
+          currentUser,
+          currentFriend,
+        })
+      );
+    } catch (error) {}
   };
 };
 
 export const startNewConversation = ({ currentUser, user }) => {
   return async (dispatch) => {
-    console.log("startNewConversation");
-
+    console.log(user);
     try {
       const filteredConversations = await axios
         .get(CONVERSATION_URL)
@@ -291,7 +280,7 @@ export const startNewConversation = ({ currentUser, user }) => {
           setCurrentMessagesFunction({
             currentConversation: response.data,
             currentUser,
-            friendObject: user,
+            currentFriend: user,
           })
         );
       } else {
@@ -302,7 +291,7 @@ export const startNewConversation = ({ currentUser, user }) => {
           setCurrentMessagesFunction({
             currentConversation,
             currentUser,
-            friendObject: user,
+            currentFriend: user,
           })
         );
       }

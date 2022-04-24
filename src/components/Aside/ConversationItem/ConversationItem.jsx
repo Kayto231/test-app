@@ -25,7 +25,7 @@ function ConversationItem({
           setCurrentMessagesFunction({
             currentConversation: Conversation,
             currentUser,
-            friendObject,
+            currentFriend: friendObject,
           })
         );
       }}

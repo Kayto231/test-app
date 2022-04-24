@@ -5,7 +5,6 @@ import { setIsChatStateAction } from "../../../redux/actions/chatActions";
 function ChatHeader() {
   const { isChat, currentFriend } = useSelector((state) => state.chat);
   const dispatch = useDispatch();
-
   return (
     <div className="chat__header flex__row">
       {isChat && (

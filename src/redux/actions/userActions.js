@@ -7,6 +7,7 @@ import {
   LOGIN_INTO_PAGE,
   LOGOUT_USER,
 } from "../consts";
+import { setIsSettingStateAction } from "./chatActions";
 
 export const loginAction = (object) => ({
   type: LOGIN_INTO_PAGE,
@@ -30,7 +31,7 @@ export const loginFunction = ({ login, password }, users) => {
   return async (dispatch) => {
     try {
       const [currentUser] = users.filter((el) =>
-        el.username === login && el.password === password ? el : null
+        el.username === login && el.password === password.toString() ? el : null
       );
 
       if (!currentUser) {
@@ -90,8 +91,11 @@ export const logOutUserFunction = () => {
       logOutUserAction({
         currentUser: {},
         isLogged: false,
+        error: {},
+        isError: false,
       })
     );
+    dispatch(setIsSettingStateAction(false));
   };
 };
 
