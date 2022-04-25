@@ -7,9 +7,7 @@ import {
 } from "../../redux/actions/userActions";
 
 function RegistrationPage() {
-  const { isLoading, isError, error, isRegister, allUsers } = useSelector(
-    (state) => state.user
-  );
+  const { isLoading, allUsers } = useSelector((state) => state.user);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -47,13 +45,13 @@ function RegistrationPage() {
         setErrorRegistration(e);
       });
   };
-  // useEffect(() => {
-  //   if (emailError || passwordError || usernameError) {
-  //     setDisabled(true);
-  //   } else {
-  //     setDisabled(false);
-  //   }
-  // }, [emailError, passwordError, usernameError]);
+  useEffect(() => {
+    if (emailError || passwordError || usernameError) {
+      setDisabled(true);
+    } else {
+      setDisabled(false);
+    }
+  }, [emailError, passwordError, usernameError]);
 
   useEffect(() => {
     setTimeout(() => dispatch(changeIsLoadingStateAction(false)), 1000);
@@ -174,7 +172,7 @@ function RegistrationPage() {
             <div className="btns">
               <button
                 onClick={(e) => handleregister(e)}
-                // disabled={!disabled}
+                disabled={disabled}
                 type="submit"
                 className="register__button button"
               >

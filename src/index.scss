@@ -37,7 +37,6 @@ $light-grey: #d3d3d3;
 }
 .button {
   text-decoration: none;
-  padding: 15px 10px;
   background: $primary-color;
   outline: none;
   border: 0;
@@ -62,17 +61,17 @@ $light-grey: #d3d3d3;
 
   // WelcomePage CSS
   .welcome__container {
-    // position: relative;
     width: 1042px;
+    min-width: 375px;
     margin: 0 auto;
     height: 100%;
     min-height: fit-content;
-    justify-content: center;
-    align-items: center;
 
     .welcome__loader {
       display: inline-block;
       position: relative;
+      align-self: center;
+      top: 50%;
       width: 80px;
       height: 80px;
       div {
@@ -161,6 +160,7 @@ $light-grey: #d3d3d3;
       }
     }
   }
+
   //Registration CSS
   .register__container {
     height: 100%;
@@ -246,7 +246,9 @@ $light-grey: #d3d3d3;
       align-items: center;
       justify-content: center;
       width: 100%;
+
       .login__button {
+        width: 100%;
         text-decoration: none;
         display: flex;
         justify-content: center;
@@ -659,7 +661,7 @@ $light-grey: #d3d3d3;
 @media screen and (max-width: 700px) {
   .wrapper {
     font-size: 20px;
-
+    width: 375px;
     .login__container {
       .login__form {
         .login__button {
@@ -668,7 +670,9 @@ $light-grey: #d3d3d3;
       }
     }
     .aside__bar {
-      max-width: none;
+      width: 375px;
+      max-width: 100%;
+
       .aside__chats {
         font-weight: 600;
 
@@ -685,6 +689,65 @@ $light-grey: #d3d3d3;
     }
     .display__none {
       display: none;
+    }
+  }
+}
+@media (orientation: landscape) and (max-width: 700px) {
+  .wrapper {
+    font-size: 17px;
+    width: 100%;
+    height: 100%;
+
+    .register__container {
+      min-height: 375px;
+      height: fit-content;
+      .register__form {
+        justify-content: unset;
+        .register__form__header {
+          margin-top: 10px;
+        }
+        .input__register {
+          padding: 10px;
+        }
+        .btns {
+          width: 100%;
+          flex-direction: row;
+          min-height: 45px;
+          .button {
+            min-height: 45px;
+            margin: 0 auto;
+            max-height: 45px;
+            height: 100%;
+          }
+        }
+      }
+    }
+    .login__container {
+      min-height: 375px;
+      .login__form {
+        .login__form__header {
+          margin: 0px;
+        }
+        .input__login {
+          padding: 10px;
+        }
+        .btns {
+          width: 100%;
+          flex-direction: row;
+          .button {
+            margin: 0 auto;
+            max-height: 45px;
+            height: 100%;
+          }
+        }
+      }
+    }
+    .aside__bar {
+      min-height: 100%;
+      width: 300px;
+    }
+    .display__none {
+      display: flex;
     }
   }
 }

@@ -44,14 +44,14 @@ function LoginPage() {
             <input
               className="input input__login"
               type="text"
-              placeholder="Type your login"
+              placeholder="Type your email."
               value={login}
               onChange={(e) => setLogin(e.target.value)}
             />
             <input
               className="input input__login"
               type="password"
-              placeholder="Type your password"
+              placeholder="Type your password."
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />

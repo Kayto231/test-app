@@ -1,5 +1,4 @@
 import axios from "axios";
-import { fi } from "date-fns/locale";
 import { USER_LIST_URL } from "../../URLS/consts";
 import {
   ERROR_WHILE_LOGGIN,
@@ -10,38 +9,48 @@ import {
 } from "../consts";
 import { setIsSettingStateAction } from "./chatActions";
 
+//Action for login
 export const loginAction = (object) => ({
   type: LOGIN_INTO_PAGE,
   payload: object,
 });
+//Action for displaying error if coming
 export const errorWhileLogin = (object) => ({
   type: ERROR_WHILE_LOGGIN,
   payload: object,
 });
+
+//Action for getting all users
 export const getAllUrers = (array) => ({
   type: GET_ALL_USERS,
   payload: array,
 });
 
+//Action for logout
 export const logOutUserAction = (object) => ({
   type: LOGOUT_USER,
   payload: object,
 });
 
+//Action for changing state of loading
 export const changeIsLoadingStateAction = (state) => ({
   type: REGISTRATION,
   payload: state,
 });
 
+//Function dispatched when clicking sign in
 export const loginFunction = ({ login, password }) => {
   return async (dispatch) => {
     try {
+      //Getting all users
       const users = await axios.get(USER_LIST_URL).then((res) => res.data);
 
+      //Checking if the login and password match any accounts
       const [currentUser] = users.filter((el) =>
         el.username === login && el.password === password.toString() ? el : null
       );
 
+      //If not, dispatching an error
       if (!currentUser) {
         return dispatch(
           errorWhileLogin({
@@ -50,6 +59,7 @@ export const loginFunction = ({ login, password }) => {
           })
         );
       }
+      //getting token for farther refreshing witour logging in again
       const token = currentUser.username;
 
       localStorage.setItem("token", JSON.stringify(token));
@@ -63,18 +73,25 @@ export const loginFunction = ({ login, password }) => {
 export const authFunction = () => {
   return async (dispatch) => {
     try {
+      //Timeout for loading :)
       setTimeout(async () => {
         const userResponse = await axios
           .get(USER_LIST_URL)
           .then((res) => res.data);
 
         dispatch(getAllUrers(userResponse));
-
+        //Againg gaining all users to see the proper one. And not work with old
         const token = localStorage.getItem("token");
         if (!token) {
-          dispatch(
-            loginAction({ currentUser: {}, isLogged: false, isLoading: false })
-          );
+          setTimeout(() => {
+            dispatch(
+              loginAction({
+                currentUser: {},
+                isLogged: false,
+                isLoading: false,
+              })
+            );
+          }, 1000);
         }
         if (token) {
           const currentUser = userResponse.find(

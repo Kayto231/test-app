@@ -6,9 +6,11 @@ import { useDispatch } from "react-redux";
 import { authFunction } from "./redux/actions/userActions";
 function App() {
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(authFunction());
   }, []);
+
   return (
     <BrowserRouter>
       <div className="wrapper">

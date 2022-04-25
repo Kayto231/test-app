@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import {
@@ -10,7 +10,6 @@ import { logOutUserFunction } from "../../../redux/actions/userActions";
 function AsideHeader() {
   const { currentUser } = useSelector((state) => state.user);
   const { isSettings, searchContactInput } = useSelector((state) => state.chat);
-  const [searchInput, setSearchInput] = useState("");
   const dispatch = useDispatch();
 
   return (

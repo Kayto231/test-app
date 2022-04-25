@@ -1,10 +1,8 @@
 import axios from "axios";
-import { now } from "moment";
 import {
   CONVERSATION_URL,
   MESSAGES_URL,
   RANDOME_JOKE_URL,
-  USER_LIST_URL,
 } from "../../URLS/consts";
 import {
   GET_CONVERSATIONS,
@@ -15,7 +13,6 @@ import {
   SET_IS_SETTINGS_STATE,
   SET_SEARCH_INPUT,
 } from "../consts";
-import { getAllUrers } from "./userActions";
 
 export const changeSearchInputAction = (string) => ({
   type: SET_SEARCH_INPUT,
