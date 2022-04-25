@@ -148,9 +148,13 @@ $light-grey: #d3d3d3;
     }
     .link__buttons {
       align-items: center;
-      width: 100%;
-      flex: 1 1 20%;
+      width: fit-content;
+      position: fixed;
+      bottom: 0;
+      right: 0;
+
       .button {
+        min-width: 150px;
         display: flex;
         justify-content: center;
         align-items: center;
