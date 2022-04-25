@@ -4,6 +4,7 @@ import {
   CONVERSATION_URL,
   MESSAGES_URL,
   RANDOME_JOKE_URL,
+  USER_LIST_URL,
 } from "../../URLS/consts";
 import {
   GET_CONVERSATIONS,
@@ -14,6 +15,7 @@ import {
   SET_IS_SETTINGS_STATE,
   SET_SEARCH_INPUT,
 } from "../consts";
+import { getAllUrers } from "./userActions";
 
 export const changeSearchInputAction = (string) => ({
   type: SET_SEARCH_INPUT,
@@ -89,9 +91,7 @@ export const setCurrentMessagesFunction = ({
       const filteredMessages = await messagesResponse.filter(
         (el) => el.conversationId === currentConversation.convId
       );
-      console.log(messagesResponse);
       if (currentConversation.isSeen === false) {
-        console.log("false");
         dispatch(
           changeConversationStateFunction({
             currentConversation,
@@ -109,8 +109,6 @@ export const setCurrentMessagesFunction = ({
           })
         );
       } else {
-        console.log("else");
-        console.log(filteredMessages);
         dispatch(
           setCurrentMessagesAction({
             isChat: true,
@@ -140,16 +138,18 @@ export const sendNewMessageFunction = ({
         createdAt: Date.now(),
       };
 
-      await axios.post(MESSAGES_URL, newMessage);
+      const newMessageResponse = await axios
+        .post(MESSAGES_URL, newMessage)
+        .then((res) => res.data);
 
-      const updatedCurrentChat = [...currentChat, newMessage];
+      const updatedCurrentChat = [...currentChat, newMessageResponse];
       dispatch(sendNewMessageAction(updatedCurrentChat));
 
       dispatch(
         changeConversationStateFunction({
           currentConversation,
           currentUser,
-          message: newMessage.message,
+          message: newMessageResponse.message,
           state: true,
         })
       );
@@ -247,7 +247,6 @@ export const getArrivalMessageFunction = ({
 
 export const startNewConversation = ({ currentUser, user }) => {
   return async (dispatch) => {
-    console.log(user);
     try {
       const filteredConversations = await axios
         .get(CONVERSATION_URL)
@@ -270,7 +269,6 @@ export const startNewConversation = ({ currentUser, user }) => {
 
       if (filteredConversations.length === 0) {
         const response = await axios.post(CONVERSATION_URL, conversationToPost);
-
         const sortedArray = await getAndSortAllConversationFunction({
           currentUser,
         });

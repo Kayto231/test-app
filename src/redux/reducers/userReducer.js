@@ -3,6 +3,7 @@ import {
   GET_ALL_USERS,
   LOGIN_INTO_PAGE,
   LOGOUT_USER,
+  REGISTRATION,
 } from "../consts";
 
 const initialState = {
@@ -16,6 +17,11 @@ const initialState = {
 
 export const userReducer = (state = initialState, action) => {
   switch (action.type) {
+    case REGISTRATION:
+      return {
+        ...state,
+        isLoading: action.payload,
+      };
     case LOGOUT_USER:
       return {
         ...state,

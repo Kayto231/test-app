@@ -6,6 +6,7 @@ import {
   GET_ALL_USERS,
   LOGIN_INTO_PAGE,
   LOGOUT_USER,
+  REGISTRATION,
 } from "../consts";
 import { setIsSettingStateAction } from "./chatActions";
 
@@ -27,9 +28,16 @@ export const logOutUserAction = (object) => ({
   payload: object,
 });
 
-export const loginFunction = ({ login, password }, users) => {
+export const changeIsLoadingStateAction = (state) => ({
+  type: REGISTRATION,
+  payload: state,
+});
+
+export const loginFunction = ({ login, password }) => {
   return async (dispatch) => {
     try {
+      const users = await axios.get(USER_LIST_URL).then((res) => res.data);
+
       const [currentUser] = users.filter((el) =>
         el.username === login && el.password === password.toString() ? el : null
       );
@@ -146,6 +154,49 @@ export const loginThroughProviderFunction = ({ providerObj, allUsers }) => {
           })
         );
       }
+    } catch (error) {}
+  };
+};
+
+export const registratioinFunction = (
+  { username, password, email },
+  allUsers
+) => {
+  return async (dispatch) => {
+    try {
+      const usersResponse = await axios
+        .get(USER_LIST_URL)
+        .then((res) => res.data);
+
+      const isExist = usersResponse.filter((user) => user.username === email);
+
+      if (isExist.length > 0)
+        return new Promise(function (resolve, reject) {
+          reject(`User with this email: ${email} is registered`);
+        });
+
+      const currentUser = {
+        name: username,
+        createdAt: Date.now(),
+        password,
+        username: email,
+      };
+
+      const currentUserResponse = await axios
+        .post(USER_LIST_URL, currentUser)
+        .then((res) => res.data);
+
+      const token = await currentUserResponse.username;
+      localStorage.setItem("token", JSON.stringify(token));
+      dispatch(
+        loginFunction(
+          {
+            login: email,
+            password,
+          },
+          allUsers
+        )
+      );
     } catch (error) {}
   };
 };

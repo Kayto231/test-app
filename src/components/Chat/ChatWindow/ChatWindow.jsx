@@ -28,7 +28,7 @@ function ChatWindow() {
           return (
             <Message
               key={i}
-              senderId={el.senderId === currentUser.id ? "me" : ""}
+              senderId={el.senderId === +currentUser.id ? "me" : ""}
               message={el.message}
               createdAt={el.createdAt}
             />

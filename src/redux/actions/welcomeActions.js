@@ -17,13 +17,15 @@ export const setCurrentLanguageAction = (object) => ({
 export const getAllLanguagesFunction = () => {
   return async (dispatch) => {
     try {
-      const [language] = await axios.get(ALL_LANGUAGES).then((res) => res.data);
-      console.log(language);
-      dispatch(getAllLanguagesAction(language));
+      const [languageResponse] = await axios
+        .get(ALL_LANGUAGES)
+        .then((res) => res.data);
+
+      dispatch(getAllLanguagesAction(languageResponse.languages));
       dispatch(
         setCurrentLanguageAction({
-          lang: language.uk,
-          contact: language.contact,
+          lang: languageResponse.languages[1],
+          contact: languageResponse.contact,
         })
       );
     } catch (error) {}
@@ -33,25 +35,24 @@ export const getAllLanguagesFunction = () => {
 export const setLanguageFunction = (string, languages) => {
   return (dispatch) => {
     switch (string) {
-      case "UK":
+      case "uk":
         return dispatch(
           setCurrentLanguageAction({
-            lang: languages.uk,
+            lang: languages[1],
             contact: languages.contact,
           })
         );
-      case "RUS":
+      case "rus":
         return dispatch(
           setCurrentLanguageAction({
-            lang: languages.rus,
+            lang: languages[0],
             contact: languages.contact,
           })
         );
-      case "ENG":
+      case "eng":
         return dispatch(
           setCurrentLanguageAction({
-            lang: languages.eng,
-            contact: languages.contact,
+            lang: languages[2],
           })
         );
       default:

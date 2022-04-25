@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import {
   changeSearchInputAction,
   setIsSettingStateAction,
@@ -35,12 +36,13 @@ function AsideHeader() {
             isSettings ? "dropdown__menu" : "dropdown__menu display__none"
           }
         >
-          <span
+          <Link
+            to={"/auth/login"}
             onClick={() => dispatch(logOutUserFunction())}
             className="dropdown__menu__item"
           >
             Logout
-          </span>
+          </Link>
         </div>
       </div>
       <div className="aside__input__block">

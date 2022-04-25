@@ -1,0 +1,31 @@
+[
+  {
+    "languages": [
+      {
+        "lang": "rus",
+        "header": "Доброго времени суток, всем кто читает это сообщение. Рад представить вашему вниманию, это тестовое задания. Я постарался учесть различные ситуации, где приложение может вести себя неккоректно. Однако, все мы люди и идеального кода не существует! Однако, я думаю, что данное приложение, делает много и в будущем будет делать еще больше.",
+        "body": "Я постарался учесть все необходимые условия по заданию, и решил выйти слегка за рамки для более удобной разработки, поэтому хочу сделать несколько замечаний на этот счет. Я использовал в этой проекте сервис, под названием MockApi, для хранения информации, ведь в тестовом задании как именно ее хранить - не указано, а создавать внутри много разных состояний я не захотел. Так, что информация вытягивается по запросам с этого сервиса. Однако, несмотря на то, что я постарался их делать по минимуму, все равно опыта у меня не много, и эта среда может отдавать статус код 400(too many requests), поэтому если много всего клацать сразу, что то может и не отобразиться. Так, это сказал, и аунтификация, тут я просто в LocalStorage засовываю почту и по ней сверяюсь, но в реальном бы проекте, понятное дело, что я выдавал бы настоящий токен, и сверял бь его. Собственно, тут не про безопасность, а функционал."
+      },
+
+      {
+        "lang": "uk",
+        "header": "Доброго часу, всім хто читає це повідомлення. Радий представити вашій увазі це тестове завдання. Я постарався врахувати різні ситуації, де програма може вести себе некоректно. Однак, ми всі люди і ідеального коду не існує! Однак, я думаю, що цей додаток робить багато і в майбутньому буде робити ще більше",
+        "body": "Я постарався врахувати всі необхідні умови за завданням, і вирішив вийти трохи за рамки для зручнішої розробки, тому хочу зробити кілька зауважень щодо цього. Я використав у цьому проекті сервіс, під назвою MockApi, для зберігання інформації, адже в тестовому завданні як саме її зберігати – не вказано, а створювати всередині багато різних станів я не захотів. Так, що інформація витягується на запити з цього сервісу. Однак, незважаючи на те, що я постарався їх робити по мінімуму, все одно досвіду у мене не багато, і це середовище може віддавати статус код 400 (too many requests), тому якщо багато всього клацати відразу, що може і не відобразитися. Так, це сказав, і аунтифікація, тут я просто в LocalStorage засовую пошту і по ній звіряюся, але в реальному проекті, ясна річ, що я видавав би справжній токен, і звіряв б його. Власне, тут не про безпеку, а функціонал."
+      },
+      {
+        "lang": "eng",
+        "header": "Good day to everyone who reads this message. I am glad to present to your attention, this is test-task. I tried to take into account various situations where the application may behave incorrectly. However, we are all human and there is no perfect code! However, I think that this application does a lot and will do even more in the future.",
+        "body": "I tried to fit into all the necessary conditions for the task, and decided to go a little beyond for more convenient development, so I want to make a few comments on this. I used a service called MockApi in this project to store information, because in the test task how exactly to store it is not indicated, and I did not want to create many different states inside. So that the information is pulled out on requests from this service. However, despite the fact that I tried to do them to a minimum, I still don’t have much experience, and this environment can give the status code 400 (too many requests), so if you click a lot at once, something may not be displayed. And authentication, here I just put mail in LocalStorage and check it, but in a real project, it’s clear that I would issue a real token and check it. Actually, it's not about security, but functionality."
+      }
+    ],
+    "login": {
+      "usernameDB": ["test@gmail.com", "test2@gmail.com", "test3@gmail.com"],
+      "password": "1234"
+    },
+    "contact": {
+      "email": "oleksiym81@gmail.com",
+      "phone": "+380-67-764-82-88",
+      "telegram": "https://t.me/last_seen_moment_ago"
+    }
+  }
+]

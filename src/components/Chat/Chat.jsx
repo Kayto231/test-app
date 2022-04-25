@@ -11,7 +11,7 @@ function Chat() {
   const { currentUser } = useSelector((state) => state.user);
   const { isChat } = useSelector((state) => state.chat);
   const dispatch = useDispatch();
-  // console.log(currentUser);
+
   useEffect(() => {
     dispatch(fetchConversationsFuncton(currentUser));
   }, []);

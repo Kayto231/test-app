@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  authFunction,
   loginFunction,
   loginThroughProviderFunction,
 } from "../../redux/actions/userActions";
 import GoogleLogin from "react-google-login";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   const [login, setLogin] = useState("");
@@ -18,17 +18,11 @@ function LoginPage() {
 
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(
-      loginFunction({ login, password }, allUsers)
-      // loginFunction({ login: "test@gmail.com", password: 1234 }, allUsers)
-    );
+    dispatch(loginFunction({ login, password }));
 
     setLogin("");
     setPassword("");
   };
-  useEffect(() => {
-    dispatch(authFunction());
-  }, []);
 
   const loginThroughProvider = (providerObj) => {
     dispatch(loginThroughProviderFunction({ providerObj, allUsers }));
@@ -65,6 +59,9 @@ function LoginPage() {
               <button type="submut" className="login__button button">
                 Sign in
               </button>
+              <Link to={"/auth/register"} className="register__button button">
+                Register
+              </Link>
               <GoogleLogin
                 className="google__button button"
                 clientId="545556659238-v889rnr15ivn0e3p11ds753akh262ftm.apps.googleusercontent.com"

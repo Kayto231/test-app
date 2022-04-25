@@ -8,7 +8,6 @@ import {
 function StartConversation({ user }) {
   const { currentUser } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  console.log(user);
 
   return (
     <div

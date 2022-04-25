@@ -2,6 +2,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  font-family: "Mukta", sans-serif;
 }
 
 html,
@@ -18,7 +19,7 @@ body {
 //Colors
 $primary-color: #384151;
 $white-color: #fff;
-$light-grey: light-grey;
+$light-grey: #d3d3d3;
 
 .flex__cl {
   display: flex;
@@ -44,6 +45,14 @@ $light-grey: light-grey;
   text-transform: uppercase;
   font-weight: bold;
   margin: 10px;
+
+  cursor: pointer;
+  width: 40%;
+  box-shadow: 1px 1px 10px $primary-color;
+
+  &:active {
+    box-shadow: unset;
+  }
 }
 .wrapper {
   position: absolute;
@@ -53,15 +62,35 @@ $light-grey: light-grey;
 
   // WelcomePage CSS
   .welcome__container {
+    // position: relative;
     width: 1042px;
     margin: 0 auto;
     height: 100%;
+    // justify-content: center;
+    // align-items: center;
 
+    .welcome__loader {
+      display: inline-block;
+      position: relative;
+      width: 80px;
+      height: 80px;
+      div {
+        position: absolute;
+        border: 4px solid $primary-color;
+        opacity: 1;
+        border-radius: 50%;
+        animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        &:nth-child(2) {
+          animation-delay: -0.5s;
+        }
+      }
+    }
     .welcome__page__navbar {
       justify-content: center;
       align-items: center;
       width: 100%;
-      flex: 0 0 12%;
+      flex: 1 1 20%;
+      max-height: 100px;
       background-color: $primary-color;
 
       .welcome__page__ul {
@@ -75,6 +104,8 @@ $light-grey: light-grey;
           border-bottom: 2px solid orange;
         }
         .welcome__page__li {
+          cursor: pointer;
+          text-transform: uppercase;
           display: flex;
           justify-content: center;
           align-items: center;
@@ -87,6 +118,8 @@ $light-grey: light-grey;
     }
     .welcome__page__text {
       flex: 1 1 60%;
+      height: fit-content;
+      max-height: fit-content;
 
       .text {
         padding: 10px 10px 10px 10px;
@@ -101,7 +134,7 @@ $light-grey: light-grey;
       }
       .welcome__page__footer {
         width: 100%;
-        flex: 1 1 20%;
+        flex: 0 0 20%;
 
         .contact__text {
           width: 100%;
@@ -113,8 +146,7 @@ $light-grey: light-grey;
       }
     }
     .link__buttons {
-      justify-content: center;
-      // align-items: center;
+      align-items: center;
       width: 100%;
       flex: 1 1 20%;
       .button {
@@ -124,7 +156,99 @@ $light-grey: light-grey;
       }
     }
   }
+  //Registration CSS
+  .register__container {
+    height: 100%;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
 
+    .register__loader {
+      display: inline-block;
+      position: relative;
+      width: 80px;
+      height: 80px;
+      div {
+        position: absolute;
+        border: 4px solid $primary-color;
+        opacity: 1;
+        border-radius: 50%;
+        animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+        &:nth-child(2) {
+          animation-delay: -0.5s;
+        }
+      }
+    }
+  }
+
+  @keyframes lds-ripple {
+    0% {
+      top: 36px;
+      left: 36px;
+      width: 0;
+      height: 0;
+      opacity: 1;
+    }
+    100% {
+      top: 0px;
+      left: 0px;
+      width: 72px;
+      height: 72px;
+      opacity: 0;
+    }
+  }
+  .register__container__error {
+    color: red;
+    font-size: 20px;
+    padding: 10px;
+  }
+  .register__form {
+    width: 50%;
+    min-width: 375px;
+    max-width: 600px;
+    height: 100%;
+    border-right: 1px solid $light-grey;
+    border-left: 1px solid $light-grey;
+    justify-content: center;
+    align-items: center;
+
+    .register__form__header {
+      font-size: 40px;
+      margin: 20px;
+    }
+    .label {
+      margin: 0 auto;
+      width: 100%;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      flex-wrap: wrap;
+      .error {
+        color: red;
+        margin-left: 2px;
+      }
+    }
+
+    .input__register {
+      width: 70%;
+      margin: 20px;
+    }
+    .btns {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      .login__button {
+        text-decoration: none;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+      }
+    }
+  }
   //LoginPage Css
   .login__container {
     height: 100%;
@@ -195,14 +319,11 @@ $light-grey: light-grey;
         align-items: center;
         justify-content: center;
         width: 100%;
-        .login__button {
-          cursor: pointer;
-          width: 40%;
-          box-shadow: 1px 1px 10px $primary-color;
-
-          &:active {
-            box-shadow: unset;
-          }
+        .register__button {
+          text-decoration: none;
+          display: flex;
+          justify-content: center;
+          align-items: center;
         }
         .google__button {
           display: flex;
@@ -261,6 +382,8 @@ $light-grey: light-grey;
 
           cursor: pointer;
           .dropdown__menu__item {
+            text-decoration: none;
+            color: $primary-color;
             width: 100%;
             padding: 10px;
           }
@@ -462,6 +585,9 @@ $light-grey: light-grey;
           }
 
           .chat__body__message {
+            display: flex;
+            justify-content: center;
+            min-width: 100px;
             margin: 10px;
             max-width: 50%;
             display: flex;

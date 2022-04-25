@@ -5,7 +5,8 @@ import {
 
 const initialState = {
   languages: [],
-  currentLanguage: {},
+  currentLanguage: [],
+  isLoading: true,
 };
 
 export const welcomeReducer = (state = initialState, action) => {
@@ -14,6 +15,7 @@ export const welcomeReducer = (state = initialState, action) => {
       return {
         ...state,
         languages: action.payload,
+        isLoading: false,
       };
     case SET_CURRENT_LANGUAGE:
       return {

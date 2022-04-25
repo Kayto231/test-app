@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { setCurrentMessagesFunction } from "../../../redux/actions/chatActions";
 import moment from "moment";
+import { setCurrentMessagesFunction } from "../../../redux/actions/chatActions";
 
 function ConversationItem({
   membersList,
@@ -13,8 +13,9 @@ function ConversationItem({
   const { allUsers, currentUser } = useSelector((state) => state.user);
   const chat = useSelector((state) => state.chat);
 
-  const [friendId] = membersList.filter((id) => +id !== currentUser?.id);
-  const [friendObject] = allUsers.filter((user) => +user.id === friendId);
+  const [friendId] = membersList.filter((id) => +id !== +currentUser?.id);
+
+  const [friendObject] = allUsers.filter((user) => +user.id === +friendId);
   const dispatch = useDispatch();
 
   const formatedTime = new Date(createdAt);

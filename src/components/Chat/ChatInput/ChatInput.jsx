@@ -11,7 +11,6 @@ function ChatInput() {
   const { currentFriend } = useSelector((state) => state.chat);
 
   const dispatch = useDispatch();
-
   const sendMessage = () => {
     dispatch(
       sendNewMessageFunction({
