@@ -1,2 +1,3 @@
 export const SET_LANGUAGE = "SET_LANGUAGE";
 export const SET_CURRENT_LANGUAGE = "SET_CURRENT_LANGUAGE";
+export const SET_CONTACT = "SET_CONTACT";

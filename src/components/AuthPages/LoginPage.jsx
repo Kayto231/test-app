@@ -59,9 +59,6 @@ function LoginPage() {
               <button type="submut" className="login__button button">
                 Sign in
               </button>
-              <Link to={"/auth/register"} className="register__button button">
-                Register
-              </Link>
               <GoogleLogin
                 className="google__button button"
                 clientId="545556659238-v889rnr15ivn0e3p11ds753akh262ftm.apps.googleusercontent.com"
@@ -69,6 +66,12 @@ function LoginPage() {
                 onSuccess={loginThroughProvider}
                 onFailure={loginThroughProvider}
               />
+              <Link to={"/auth/register"} className="register__button button">
+                Register
+              </Link>
+              <Link to={"/auth/welcome"} className="register__button button">
+                Welcome Page
+              </Link>
             </div>
           </form>
         </>

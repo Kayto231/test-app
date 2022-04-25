@@ -1,5 +1,6 @@
 import axios from "axios";
 import {
+  SET_CONTACT,
   SET_CURRENT_LANGUAGE,
   SET_LANGUAGE,
 } from "../../components/AuthPages/WelcomePageTranslations/const";
@@ -13,21 +14,27 @@ export const setCurrentLanguageAction = (object) => ({
   type: SET_CURRENT_LANGUAGE,
   payload: object,
 });
+export const setContactsAction = (object) => ({
+  type: SET_CONTACT,
+  payload: object,
+});
 
 export const getAllLanguagesFunction = () => {
   return async (dispatch) => {
     try {
-      const [languageResponse] = await axios
-        .get(ALL_LANGUAGES)
-        .then((res) => res.data);
+      setTimeout(async () => {
+        const [languageResponse] = await axios
+          .get(ALL_LANGUAGES)
+          .then((res) => res.data);
 
-      dispatch(getAllLanguagesAction(languageResponse.languages));
-      dispatch(
-        setCurrentLanguageAction({
-          lang: languageResponse.languages[1],
-          contact: languageResponse.contact,
-        })
-      );
+        dispatch(setContactsAction(languageResponse.contact));
+        dispatch(getAllLanguagesAction(languageResponse.languages));
+        dispatch(
+          setCurrentLanguageAction({
+            lang: languageResponse.languages[1],
+          })
+        );
+      }, 1500);
     } catch (error) {}
   };
 };
@@ -39,14 +46,12 @@ export const setLanguageFunction = (string, languages) => {
         return dispatch(
           setCurrentLanguageAction({
             lang: languages[1],
-            contact: languages.contact,
           })
         );
       case "rus":
         return dispatch(
           setCurrentLanguageAction({
             lang: languages[0],
-            contact: languages.contact,
           })
         );
       case "eng":
@@ -58,7 +63,7 @@ export const setLanguageFunction = (string, languages) => {
       default:
         return dispatch(
           setCurrentLanguageAction({
-            lang: languages.uk,
+            lang: languages[1],
             contact: languages.contact,
           })
         );

@@ -44,6 +44,7 @@ $light-grey: #d3d3d3;
   text-transform: uppercase;
   font-weight: bold;
   margin: 10px;
+  min-height: 45px;
 
   cursor: pointer;
   width: 40%;
@@ -142,6 +143,10 @@ $light-grey: #d3d3d3;
             color: rgb(39, 54, 83);
             text-decoration: none;
           }
+        }
+        .contact__user {
+          border: 1px solid $primary-color;
+          padding: 4px;
         }
       }
     }

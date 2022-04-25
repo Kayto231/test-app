@@ -8,9 +8,10 @@ import { Link } from "react-router-dom";
 import { LOGIN_PAGE_PATH, REGISTRATIN_PAGE_PATH } from "../../appRouter/consts";
 
 function WelcomePage() {
-  const { languages, currentLanguage, isLoading } = useSelector(
+  const { languages, currentLanguage, isLoading, contactInfo } = useSelector(
     (state) => state.lang
   );
+  console.log(languages);
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllLanguagesFunction());
@@ -57,7 +58,7 @@ function WelcomePage() {
                 <a
                   className="contact__text__link"
                   target="_blank"
-                  href={`mailto:${currentLanguage?.contact?.email}`}
+                  href={`mailto:${contactInfo?.email}`}
                 >
                   Email
                 </a>
@@ -66,7 +67,7 @@ function WelcomePage() {
                 <a
                   className="contact__text__link"
                   target="_blank"
-                  href={`tel:${currentLanguage?.contact?.phone}`}
+                  href={`tel:${contactInfo?.phone}`}
                 >
                   Phone
                 </a>
@@ -75,13 +76,21 @@ function WelcomePage() {
                 <a
                   className="contact__text__link"
                   target="_blank"
-                  href={currentLanguage?.contact?.telegram}
+                  href={contactInfo?.telegram}
                 >
                   Telegram
                 </a>{" "}
-                <span className="contact__text">
-                  {currentLanguage?.login?.usernameDB}
-                </span>
+                <div className="contact__user flex__cl">
+                  <p>User api: {`{`}</p>
+                  <span className="name">Name: {contactInfo?.tester.name}</span>
+                  <span className="email">
+                    Email: {contactInfo?.tester.username} // Copy it
+                  </span>
+                  <span className="password">
+                    Password: {contactInfo?.tester.password} // Copy it
+                  </span>
+                  <p>{`}`}</p>
+                </div>
               </span>
             </div>
           </div>
