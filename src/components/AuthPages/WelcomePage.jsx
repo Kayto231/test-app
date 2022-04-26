@@ -11,7 +11,7 @@ function WelcomePage() {
   const { languages, currentLanguage, isLoading, contactInfo } = useSelector(
     (state) => state.lang
   );
-  console.log(languages);
+
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getAllLanguagesFunction());

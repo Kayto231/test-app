@@ -1,5 +1,5 @@
 import axios from "axios";
-import { USER_LIST_URL } from "../../URLS/consts";
+import { USER_LIST_URL, VISIT__URL } from "../../URLS/consts";
 import {
   ERROR_WHILE_LOGGIN,
   GET_ALL_USERS,
@@ -216,4 +216,8 @@ export const registratioinFunction = (
       );
     } catch (error) {}
   };
+};
+
+export const visitFunction = async () => {
+  await axios.post(VISIT__URL, { createdAt: Date.now() });
 };

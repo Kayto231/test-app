@@ -4,7 +4,7 @@ import {
   SET_CURRENT_LANGUAGE,
   SET_LANGUAGE,
 } from "../../components/AuthPages/WelcomePageTranslations/const";
-import { ALL_LANGUAGES } from "../../URLS/consts";
+import { ALL_LANGUAGES, VISIT__URL } from "../../URLS/consts";
 
 export const getAllLanguagesAction = (object) => ({
   type: SET_LANGUAGE,
